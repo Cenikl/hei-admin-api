@@ -3,10 +3,7 @@ package school.hei.haapi.endpoint.rest.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import school.hei.haapi.endpoint.rest.mapper.CourseMapper;
-import school.hei.haapi.model.BoundedPageSize;
 import school.hei.haapi.model.Course;
-import school.hei.haapi.model.PageFromOne;
-import school.hei.haapi.model.User;
 import school.hei.haapi.service.CourseService;
 
 import java.util.List;
@@ -28,19 +25,8 @@ public class CourseController {
             @PathVariable String courseId){
         return courseMapper.toRest(courseService.getById(courseId));
     }
-    @GetMapping("/course/{courseName}")
-    public List<Course> getCourseByName(
-            @PathVariable String courseName){
-        return courseService.getAllByName(courseName);
-    }
-
-    @PutMapping("/course")
-    public List<Course> createOrUpdateCourse(@RequestBody List<Course> toWrite) {
-        var saved = courseService.saveAll(toWrite.stream()
-                .map(courseMapper::toDomain)
-                .collect(toUnmodifiableList()));
-        return saved.stream()
-                .map(courseMapper::toRest)
-                .collect(toUnmodifiableList());
+    @PutMapping("/courses")
+    public Course createOrUpdateCourse(@RequestBody Course toWrite) {;
+        return courseService.saveOne(toWrite);
     }
 }
