@@ -20,18 +20,10 @@ import static org.springframework.data.domain.Sort.Direction.ASC;
 @AllArgsConstructor
 public class CourseService {
     private final CourseRepository courseRepository;
-
-    public Course getById(String courseId) {
-        return courseRepository.findById(courseId).get();
-    }
+    public Course getById(String courseId) {return courseRepository.getById(courseId);}
     public List<Course> getAll() {
         return courseRepository.findAll();
     }
-
-    public List<Course> getAllByName(String name) {return courseRepository.findByNameIgnoreCase(name);}
-
-    public List<Course> saveAll(List<Course> courses) {
-        return courseRepository.saveAll(courses);
-    }
+    public Course saveOne(Course course) { return courseRepository.save(course);}
 
 }
