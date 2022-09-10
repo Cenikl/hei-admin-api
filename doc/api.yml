@@ -548,7 +548,9 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/Place'
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Place'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -571,7 +573,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Place'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Place'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -593,8 +597,10 @@ paths:
         content:
           'application/json':
             schema:
-              type: object
-              properties:
+              type: array
+              items:
+                type: object
+                properties:
                   place_name: 
                     description: Create place with exact information
                     type: string
@@ -605,7 +611,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Place'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Place'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -636,7 +644,9 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/Event'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -662,7 +672,9 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/Event'
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Event'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -693,6 +705,7 @@ paths:
         content:
           application/json:
             schema:
+              type: array
               items:
                 $ref: '#/components/schemas/Event'
       responses:
@@ -701,6 +714,7 @@ paths:
           content:
             application/json:
               schema:
+                type: array
                 items:
                   $ref: '#/components/schemas/Event'
         '400':
@@ -734,7 +748,9 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/EventParticipant'
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventParticipant'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -761,14 +777,18 @@ paths:
         content:
           application/json:
             schema: 
-              $ref: '#/components/schemas/CreateNewParticipant'
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateNewParticipant'
       responses:
         '200':
           description: updated succesfully
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/EventParticipant'
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventParticipant'
         '400':
           $ref: '#/components/responses/400'
         '403':
