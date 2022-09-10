@@ -531,7 +531,7 @@ paths:
   /places/{id}:
     get:
       tags:
-        - Event
+        - Place
       summary: Get place by id 
       operationId: getPlacebyId
       parameters:
@@ -562,7 +562,7 @@ paths:
   /places:
     get:
       tags:
-        - Event
+        - Place
       summary: Get all places
       operationId: GetAllPlaces
       responses:
@@ -584,7 +584,7 @@ paths:
           $ref: '#/components/responses/500'
     post: 
       tags:
-        - Event
+        - Place
       summary: Create new place
       operationId: createNewPlace
       requestBody:
@@ -617,10 +617,43 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  /event/{event_id}: 
+    get:
+      tags:
+        - Place
+      summary: Get event by id
+      operationId: getEventById
+      parameters:
+        - name: event_id
+          in: path
+          schema: 
+            type: string
+            example: "EVT220001"
+          required: true
+      responses:
+        '200':
+          description: List of events
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Event'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+
+
+
   /event:
     get:
       tags:
-        - Event
+        - Place
       summary: Get all event with details
       operationId: getAllEvent
       responses:
@@ -640,39 +673,11 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-    post: 
-      tags:
-        - Event
-      summary: Create new event
-      operationId: createNewEvent
-      requestBody:
-        description: event to create
-        required: true
-        content:
-          application/json:
-            schema: 
-              $ref: '#/components/schemas/Event'
-      responses:
-        '200':
-          description: event created succesfully
-          content:
-            application/json:
-              schema: 
-                $ref: '#/components/schemas/Event'
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+    
     put:
       tags:
-        - Event
-      summary: Update event information
+        - Place
+      summary: Create new event or Update existing event
       operationId: modifyEventInformation
       description: |
         Possible changes on:
@@ -709,11 +714,11 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /participants/{event_id}:
+  /eventparticipants/{event_id}:
     get:
       tags:
-        - Event
-      summary: Get all participant in event
+        - Place
+      summary: Get all participants in event
       operationId: getAllParticipant
       parameters:
         - name: event_id
@@ -741,40 +746,11 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /participants:
-    post: 
-      tags:
-        - Event
-      summary: Add new participant in event
-      operationId: createNewParticipant
-      requestBody:
-        description: information of participant
-        required: true
-        content:
-          application/json:
-            schema: 
-              $ref: '#/components/schemas/CreateNewParticipant'
-      responses:
-        '200':
-          description: participant added succesfully
-          content:
-            application/json:
-              schema: 
-                $ref: '#/components/schemas/EventParticipant'
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
+  /eventparticipants:
     put: 
       tags:
-        - Event
-      summary: Update information of participation
+        - Place
+      summary: Add new participant or update existing participant information
       operationId: updateParticipation
       description: |
         Possible change on :
@@ -803,6 +779,39 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /eventparticipant/{event_id}/participant/{participant_ref}:
+    delete: 
+      tags:
+        - Place
+      summary: Delete participant from eventParticipant
+      operationId: deleteParticipant
+      parameters:
+        - name: event_id
+          in: path
+          schema: 
+            type: string
+            example: "EVT2100001"
+          required: true
+        - name: participant_ref
+          in: path
+          schema:
+            type: string
+            example: "STD2100001"
+          required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+        
           
   /delay_penalty_change:
     post:
@@ -1118,6 +1127,13 @@ components:
       scheme: bearer
 
   responses:
+    '200':
+      description: Deleted succesfully
+      content:
+        application/json:
+          schema: 
+            $ref: "#/components/schemas/Deleted"
+
     '400':
       description: Bad request
       content:
@@ -1324,7 +1340,6 @@ components:
     PageSize:
       type: integer
       description: Cannot exceed `500`
-
     Exception:
       type: object
       properties:
@@ -1332,6 +1347,12 @@ components:
           type: string
         message:
           type: string
+    Deleted:
+      allOf:
+        - $ref: '#components/schemas/Exception'
+      example: 
+        type: Success
+        message: Deleted succesfully
     BadRequestException:
       allOf:
         - $ref: '#/components/schemas/Exception'
@@ -1375,9 +1396,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
-          example: 1
+          type: string
+          example: "EVT220001"
         description:
           type: string
           example: "Examen prog1"
@@ -1390,7 +1410,6 @@ components:
         end_event_datetime:
           type: string
           format: date-time
-        
         supervisor:
           type: string
           enum:
@@ -1421,9 +1440,8 @@ components:
       type: object
       properties:
         event_id: 
-          type: integer
-          format: int64
-          example: 1
+          type: string
+          example: "EVT2100001"
         participant_ref:
           type: string
           example: "STD21000001"
