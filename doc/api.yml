@@ -1349,7 +1349,7 @@ components:
           type: string
     Deleted:
       allOf:
-        - $ref: '#components/schemas/Exception'
+        - $ref: '#/components/schemas/Exception'
       example: 
         type: Success
         message: Deleted succesfully
