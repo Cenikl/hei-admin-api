@@ -528,7 +528,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /places/{id}:
+  '/places/{id}':
     get:
       tags:
         - Place
@@ -537,20 +537,18 @@ paths:
       parameters:
         - name: id
           in: path
+          required: true
           schema:
             type: integer
             format: int64
-            example: 0
-          required: true
+            example: 1
       responses:
         '200':
           description: The place with id 
           content:
             application/json:
               schema: 
-                type: array
-                items: 
-                  $ref: '#/components/schemas/Place'
+                $ref: '#/components/schemas/Place'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -592,10 +590,10 @@ paths:
       summary: Create new place
       operationId: createNewPlace
       requestBody:
-        description: name of the new place
         required: true
+        description: name of the new place
         content:
-          'application/json':
+          application/json:
             schema:
               type: array
               items:
@@ -625,7 +623,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /event/{event_id}: 
+  '/event/{event_id}': 
     get:
       tags:
         - Place
@@ -634,19 +632,17 @@ paths:
       parameters:
         - name: event_id
           in: path
+          required: true
           schema: 
             type: string
             example: "EVT220001"
-          required: true
       responses:
         '200':
-          description: List of events
+          description: Event identified
           content:
             application/json:
               schema: 
-                type: array
-                items:
-                  $ref: '#/components/schemas/Event'
+                $ref: '#/components/schemas/Event'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -690,7 +686,7 @@ paths:
       tags:
         - Place
       summary: Create new event or Update existing event
-      operationId: modifyEventInformation
+      operationId: createEventOrUpdate
       description: |
         Possible changes on:
         * description: change
@@ -728,20 +724,20 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /eventparticipants/{event_id}:
+  '/eventparticipants/{event_id}':
     get:
       tags:
         - Place
       summary: Get all participants in event
-      operationId: getAllParticipant
+      operationId: getAllParticipantByEventId
       parameters:
         - name: event_id
           in: path
+          required: true
           schema:
             type: integer
             format: int64
             example: 1
-          required: true
       responses:
         '200':
           description: List of participant in event
@@ -767,7 +763,7 @@ paths:
       tags:
         - Place
       summary: Add new participant or update existing participant information
-      operationId: updateParticipation
+      operationId: createParticipantOrUpdateInformation
       description: |
         Possible change on :
         * status: change
@@ -799,7 +795,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /eventparticipant/{event_id}/participant/{participant_ref}:
+  '/eventparticipant/{event_id}/participant/{participant_ref}':
     delete: 
       tags:
         - Place
@@ -808,16 +804,16 @@ paths:
       parameters:
         - name: event_id
           in: path
+          required: true
           schema: 
             type: string
             example: "EVT2100001"
-          required: true
         - name: participant_ref
           in: path
+          required: true
           schema:
             type: string
             example: "STD2100001"
-          required: true
       responses:
         '200':
           $ref: '#/components/responses/200'
@@ -1433,14 +1429,14 @@ components:
         supervisor:
           type: string
           enum:
-            - Teacher
-            - Administrator
+            - TEACHER
+            - ADMINISTRATOR
         status:
           type: string
           enum:
-            - End 
-            - Expected
-            - Cancelled
+            - END
+            - EXPECTED
+            - CANCELLED
     EventParticipant:
       type: object
       properties:
